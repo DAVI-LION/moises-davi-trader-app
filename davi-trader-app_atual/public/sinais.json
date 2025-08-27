@@ -1,0 +1,17 @@
+[
+  {
+    "ativo": "PETR4",
+    "direcao": "COMPRA",
+    "horario": "2025-08-26 11:30:00"
+  },
+  {
+    "ativo": "VALE3",
+    "direcao": "VENDA",
+    "horario": "2025-08-26 12:00:00"
+  },
+  {
+    "ativo": "ITUB4",
+    "direcao": "COMPRA",
+    "horario": "2025-08-26 12:30:00"
+  }
+]
