@@ -1,59 +1,50 @@
-import React from "react";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 
 function App() {
   const [sinais, setSinais] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  // URL correta do JSON no GitHub
-  const API_URL =
-    "https://raw.githubusercontent.com/DAVI-LION/davi-trader-signals/main/sinais.json";
-
   useEffect(() => {
-    const fetchData = async () => {
+    const fetchSinais = async () => {
       try {
-        const response = await fetch(API_URL);
-        if (!response.ok) {
-          throw new Error("Erro ao carregar os sinais");
-        }
-        const data = await response.json();
+        const res = await fetch("/sinais.json");
+        if (!res.ok) throw new Error("Erro ao carregar sinais");
+        const data = await res.json();
         setSinais(data);
-        setLoading(false);
-      } catch (error) {
-        console.error("Erro ao carregar os sinais:", error);
+      } catch (err) {
+        console.error("Erro:", err);
+      } finally {
         setLoading(false);
       }
     };
 
-    fetchData();
-
-    // Atualiza automaticamente a cada 60s
-    const interval = setInterval(fetchData, 60000);
+    fetchSinais();
+    const interval = setInterval(fetchSinais, 60000); // atualiza a cada 60s
     return () => clearInterval(interval);
   }, []);
 
-  if (loading) {
-    return (
-      <div className="flex items-center justify-center h-screen">
-        <p>Carregando sinais...</p>
-      </div>
-    );
-  }
-
   return (
-    <div className="p-6">
-      <h1 className="text-2xl font-bold mb-4">📊 REI DAVI TRADER</h1>
-      <ul className="space-y-4">
-        {sinais.map((sinal, index) => (
-          <li
-            key={index}
-            className="p-4 rounded-2xl shadow-md bg-white border"
-          >
-            <p className="text-lg font-semibold">{sinal.ativo}</p>
-            <p className="text-sm text-gray-600">{sinal.horario}</p>
-          </li>
-        ))}
-      </ul>
+    <div className="min-h-screen bg-gray-900 text-white flex flex-col items-center p-6">
+      <h1 className="text-3xl font-bold mb-6">📊 REI DAVI TRADER</h1>
+
+      {loading ? (
+        <p>Carregando sinais...</p>
+      ) : sinais.length === 0 ? (
+        <p>Nenhum sinal disponível.</p>
+      ) : (
+        <div className="grid gap-4 w-full max-w-2xl">
+          {sinais.map((sinal, idx) => (
+            <div
+              key={idx}
+              className="bg-gray-800 p-4 rounded-2xl shadow-md border border-gray-700"
+            >
+              <h2 className="text-xl font-semibold">{sinal.ativo}</h2>
+              <p className="text-gray-300">Data: {sinal.data}</p>
+              <p className="text-gray-400">Horário: {sinal.horario}</p>
+            </div>
+          ))}
+        </div>
+      )}
     </div>
   );
 }
