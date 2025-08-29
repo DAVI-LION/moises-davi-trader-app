@@ -1,52 +1,22 @@
-import React, { useEffect, useState } from "react";
+// src/App.jsx
+import React from 'react'
+import ListaSinais from './components/ListaSinais'
 
-function App() {
-  const [sinais, setSinais] = useState([]);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    const fetchSinais = async () => {
-      try {
-        const res = await fetch("/sinais.json");
-        if (!res.ok) throw new Error("Erro ao carregar sinais");
-        const data = await res.json();
-        setSinais(data);
-      } catch (err) {
-        console.error("Erro:", err);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchSinais();
-    const interval = setInterval(fetchSinais, 60000); // atualiza a cada 60s
-    return () => clearInterval(interval);
-  }, []);
-
+export default function App() {
   return (
-    <div className="min-h-screen bg-gray-900 text-white flex flex-col items-center p-6">
-      <h1 className="text-3xl font-bold mb-6">📊 REI DAVI TRADER</h1>
+    <div className="min-h-screen bg-gray-50 p-6">
+      <div className="max-w-4xl mx-auto">
+        <header className="mb-6">
+          <h1 className="text-2xl font-semibold">REI DAVI TRADER — Sinais</h1>
+          <p className="text-sm text-gray-600">
+            Versão refinada — leitura de sinais locais com tratamento de erros, cache e atualização automática (60s).
+          </p>
+        </header>
 
-      {loading ? (
-        <p>Carregando sinais...</p>
-      ) : sinais.length === 0 ? (
-        <p>Nenhum sinal disponível.</p>
-      ) : (
-        <div className="grid gap-4 w-full max-w-2xl">
-          {sinais.map((sinal, idx) => (
-            <div
-              key={idx}
-              className="bg-gray-800 p-4 rounded-2xl shadow-md border border-gray-700"
-            >
-              <h2 className="text-xl font-semibold">{sinal.ativo}</h2>
-              <p className="text-gray-300">Data: {sinal.data}</p>
-              <p className="text-gray-400">Horário: {sinal.horario}</p>
-            </div>
-          ))}
-        </div>
-      )}
+        <main>
+          <ListaSinais />
+        </main>
+      </div>
     </div>
-  );
+  )
 }
-
-export default App;
