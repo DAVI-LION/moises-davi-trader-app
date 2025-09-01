@@ -1,3 +1,4 @@
+import React from "react";
 // src/components/SinalCard.jsx
 import React from 'react'
 import { formatDateLocal } from '../utils/date'
