@@ -7,25 +7,43 @@ const formatBRL = (value) => {
   return new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(Number(value))
 }
 
+// Definindo as classes por operação (fácil de expandir no futuro)
+const operacaoStyles = {
+  COMPRA: {
+    container: 'border-green-200 bg-green-50',
+    badge: 'text-green-700',
+  },
+  VENDA: {
+    container: 'border-red-200 bg-red-50',
+    badge: 'text-red-700',
+  },
+  NEUTRO: {
+    container: 'border-gray-200 bg-gray-50',
+    badge: 'text-gray-600',
+  },
+  AJUSTE: {
+    container: 'border-yellow-200 bg-yellow-50',
+    badge: 'text-yellow-700',
+  },
+  ENCERRAR: {
+    container: 'border-purple-200 bg-purple-50',
+    badge: 'text-purple-700',
+  },
+  DEFAULT: {
+    container: 'border-gray-200 bg-white',
+    badge: 'text-gray-700',
+  },
+}
+
 export default function SinalCard({ sinal, isNext, isRead, onMarkRead, onView }) {
   const operacao = String(sinal.operacao ?? '').toUpperCase()
-  let container = 'p-4 rounded-2xl shadow border transition'
-  let badgeText = operacao || '—'
-  let badgeClasses = 'text-2xl font-bold'
+  const style = operacaoStyles[operacao] || operacaoStyles.DEFAULT
 
-  if (operacao === 'COMPRA') {
-    container += ' border-green-200 bg-green-50'
-    badgeClasses += ' text-green-700'
-  } else if (operacao === 'VENDA') {
-    container += ' border-red-200 bg-red-50'
-    badgeClasses += ' text-red-700'
-  } else {
-    container += ' border-gray-200 bg-white'
-    badgeClasses += ' text-gray-700'
-  }
+  let container = `p-4 rounded-2xl shadow border transition ${style.container}`
+  let badgeText = operacao || '—'
+  let badgeClasses = `text-2xl font-bold ${style.badge}`
 
   if (isRead) container += ' opacity-60'
-
   if (isNext) container += ' ring-2 ring-yellow-200'
 
   const dt = sinal.parsedHorario
