@@ -1,19 +1,19 @@
+// components/SinalCard.jsx
 import React from "react";
 
-export default function SinalCard({ ativo, horario, operacao }) {
+function SinalCard({ papel, horario, operacao }) {
+  const operacaoEstilo =
+    operacao === "COMPRA"
+      ? "text-green-600 font-bold"
+      : "text-red-600 font-bold";
+
   return (
-    <div
-      className={`rounded-2xl shadow-md p-4 mb-4 text-white ${
-        operacao === "COMPRA"
-          ? "bg-green-500"
-          : operacao === "VENDA"
-          ? "bg-red-500"
-          : "bg-gray-500"
-      }`}
-    >
-      <h2 className="text-xl font-bold">{ativo}</h2>
-      <p className="text-sm">{horario}</p>
-      <p className="mt-2 text-lg font-semibold">{operacao}</p>
+    <div className="bg-white shadow-md rounded-2xl p-4 border border-gray-200">
+      <h2 className="text-xl font-semibold">{papel}</h2>
+      <p className="text-gray-500">{horario}</p>
+      <p className={operacaoEstilo}>{operacao}</p>
     </div>
   );
 }
+
+export default SinalCard;

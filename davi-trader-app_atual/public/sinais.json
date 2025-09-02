@@ -1,47 +1,17 @@
 [
   {
-    "id": 1,
     "ativo": "PETR4",
-    "horario": "2025-09-01 10:30:00",
-    "precoEntrada": 37.25,
-    "alvo": 38.50,
-    "stop": 36.70,
+    "horario": "2025-08-25 10:45:00",
     "operacao": "COMPRA"
   },
   {
-    "id": 2,
     "ativo": "VALE3",
-    "horario": "2025-09-01 11:00:00",
-    "precoEntrada": 65.10,
-    "alvo": 63.80,
-    "stop": 66.50,
+    "horario": "2025-08-25 11:00:00",
     "operacao": "VENDA"
   },
   {
-    "id": 3,
     "ativo": "ITUB4",
-    "horario": "2025-09-01 11:30:00",
-    "precoEntrada": 30.00,
-    "alvo": 30.10,
-    "stop": 29.90,
-    "operacao": "NEUTRO"
-  },
-  {
-    "id": 4,
-    "ativo": "BBDC4",
-    "horario": "2025-09-01 12:00:00",
-    "precoEntrada": 22.50,
-    "alvo": 23.20,
-    "stop": 22.00,
-    "operacao": "AJUSTE"
-  },
-  {
-    "id": 5,
-    "ativo": "BBAS3",
-    "horario": "2025-09-01 12:30:00",
-    "precoEntrada": 44.80,
-    "alvo": 45.50,
-    "stop": 44.00,
-    "operacao": "ENCERRAR"
+    "horario": "2025-08-25 11:15:00",
+    "operacao": "COMPRA"
   }
 ]
