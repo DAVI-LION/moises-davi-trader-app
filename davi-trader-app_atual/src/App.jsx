@@ -1,46 +1,47 @@
-// src/App.jsx
-import React, { useEffect, useState } from 'react'
-import SinalCard from './components/SinalCard'
+import React, { useState, useEffect, useMemo } from "react";
+import SinalCard from "./components/SinalCard";
+import "./App.css";
+import { formatarData } from "./utils/date";
 
 export default function App() {
-  const [sinais, setSinais] = useState(null) // null = ainda carregando
-  const [error, setError] = useState(null)
+  const [sinais, setSinais] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [err, setErr] = useState(null);
 
   useEffect(() => {
-    async function fetchSinais() {
-      try {
-        const res = await fetch('/sinais.json', { cache: 'no-store' })
-        if (!res.ok) throw new Error(`Falha ao buscar sinais (HTTP ${res.status})`)
-        const data = await res.json()
-        // espera que o JSON seja um array no root
-        if (!Array.isArray(data)) throw new Error('Formato inválido: esperado array no root de sinais.json')
-        setSinais(data)
-      } catch (err) {
-        console.error(err)
-        setError(err.message ?? 'Erro desconhecido')
-        setSinais([])
-      }
-    }
-    fetchSinais()
-  }, [])
+    fetch("/sinais.json")
+      .then((res) => {
+        if (!res.ok) throw new Error("Erro ao carregar sinais");
+        return res.json();
+      })
+      .then((data) => {
+        setSinais(data);
+        setLoading(false);
+      })
+      .catch((error) => {
+        console.error(error);
+        setErr("Falha ao carregar os sinais.");
+        setLoading(false);
+      });
+  }, []);
 
-  if (sinais === null) return <div className="p-6">⏳ Carregando sinais...</div>
-  if (error) return <div className="p-6 text-red-600">Erro ao carregar sinais: {error}</div>
-  if (sinais.length === 0) return <div className="p-6">Nenhum sinal disponível.</div>
+  const listaOrdenada = useMemo(() => {
+    return [...sinais].sort(
+      (a, b) => new Date(a.horario) - new Date(b.horario)
+    );
+  }, [sinais]);
+
+  if (loading) return <p className="status">⏳ Carregando sinais...</p>;
+  if (err) return <p className="status erro">{err}</p>;
 
   return (
-    <div className="min-h-screen bg-gray-100 p-6">
-      <header className="max-w-4xl mx-auto mb-6">
-        <h1 className="text-3xl font-bold">📊 REI DAVI TRADER</h1>
-        <p className="text-sm text-gray-600">Sinais — versão finalizada (COMPRA/VENDA/NEUTRO/AJUSTE/ENCERRAR)</p>
-      </header>
-
-      <main className="max-w-4xl mx-auto grid gap-4">
-        {sinais.map((sinal) => (
-          // passamos o objeto inteiro — SinalCard deve aceitar `sinal`
-          <SinalCard key={sinal.id ?? `${sinal.ativo}-${sinal.horario}`} sinal={sinal} />
+    <div className="container">
+      <h1 className="titulo">📊 REI DAVI TRADER</h1>
+      <div className="lista">
+        {listaOrdenada.map((sinal, idx) => (
+          <SinalCard key={idx} sinal={sinal} />
         ))}
-      </main>
+      </div>
     </div>
-  )
+  );
 }
