@@ -1,16 +1,25 @@
-.card {
-  background: white;
-  padding: 15px;
-  border-radius: 10px;
-  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+.sinal-card {
+  background: #ffffff;
+  border: 1px solid #ddd;
+  border-radius: 12px;
+  padding: 16px;
+  text-align: left;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s ease;
 }
 
-.card h2 {
-  margin: 0 0 10px 0;
-  color: #2c3e50;
+.sinal-card:hover {
+  transform: translateY(-4px);
 }
 
-.card p {
-  margin: 5px 0;
-  font-size: 14px;
+.sinal-card h2 {
+  margin: 0 0 10px;
+  font-size: 1.2rem;
+  color: #222;
+}
+
+.sinal-card p {
+  margin: 4px 0;
+  font-size: 0.95rem;
+  color: #444;
 }
