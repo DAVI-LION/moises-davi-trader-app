@@ -1,20 +1,39 @@
-import React from 'react'
-import SinalCard from '../components/SinalCard'
-import './Home.css'
+import React, { useEffect, useState } from "react";
+import SinalCard from "../components/SinalCard";
+import "./Home.css";
 
-export default function Home({ sinais }) {
+function Home() {
+  const [sinais, setSinais] = useState([]);
+
+  useEffect(() => {
+    fetch("/sinais.json")
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Erro ao carregar sinais");
+        }
+        return response.json();
+      })
+      .then((data) => setSinais(data))
+      .catch((error) => console.error(error));
+  }, []);
+
   return (
-    <div className="home-container">
-      <h1>📊 REI DAVI TRADER</h1>
+    <div className="home">
       {sinais.length === 0 ? (
-        <p>Nenhum sinal disponível</p>
+        <p>Nenhum sinal disponível.</p>
       ) : (
-        <div className="sinais-grid">
-          {sinais.map((sinal, index) => (
-            <SinalCard key={index} sinal={sinal} />
-          ))}
-        </div>
+        sinais.map((sinal, index) => (
+          <SinalCard
+            key={index}
+            ativo={sinal.ativo}
+            data={sinal.data}
+            hora={sinal.hora}
+            recomendacao={sinal.recomendacao}
+          />
+        ))
       )}
     </div>
-  )
+  );
 }
+
+export default Home;
