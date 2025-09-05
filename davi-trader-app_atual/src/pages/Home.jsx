@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import SinalCard from "../components/SinalCard";
 import "./Home.css";
 
@@ -8,9 +8,7 @@ function Home() {
   useEffect(() => {
     fetch("/sinais.json")
       .then((response) => {
-        if (!response.ok) {
-          throw new Error("Erro ao carregar sinais");
-        }
+        if (!response.ok) throw new Error("Erro ao carregar sinais");
         return response.json();
       })
       .then((data) => setSinais(data))
@@ -18,19 +16,14 @@ function Home() {
   }, []);
 
   return (
-    <div className="home">
-      {sinais.length === 0 ? (
-        <p>Nenhum sinal disponível.</p>
-      ) : (
+    <div className="home-container">
+      <h1 className="titulo">📊 REI DAVI TRADER</h1>
+      {sinais.length > 0 ? (
         sinais.map((sinal, index) => (
-          <SinalCard
-            key={index}
-            ativo={sinal.ativo}
-            data={sinal.data}
-            hora={sinal.hora}
-            recomendacao={sinal.recomendacao}
-          />
+          <SinalCard key={index} sinal={sinal} />
         ))
+      ) : (
+        <p>Carregando sinais...</p>
       )}
     </div>
   );

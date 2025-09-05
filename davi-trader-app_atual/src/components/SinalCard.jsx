@@ -1,19 +1,12 @@
-import React from "react";
 import "./SinalCard.css";
 
-function SinalCard({ ativo, data, hora, recomendacao }) {
+function SinalCard({ sinal }) {
   return (
     <div className="sinal-card">
-      <h2>{ativo}</h2>
-      <p>
-        <strong>Data:</strong> {data}
-      </p>
-      <p>
-        <strong>Hora:</strong> {hora}
-      </p>
-      <p>
-        <strong>Recomendação:</strong> {recomendacao}
-      </p>
+      <h2>{sinal.ativo}</h2>
+      <p><strong>Data:</strong> {sinal.data}</p>
+      <p><strong>Hora:</strong> {sinal.hora}</p>
+      <p><strong>Recomendação:</strong> {sinal.recomendacao}</p>
     </div>
   );
 }
